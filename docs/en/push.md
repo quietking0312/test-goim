@@ -4,10 +4,10 @@ push HTTP interface protocols for pusher
 <h3>Interfaces</h3>
 | Name | URL | HTTP method |
 | :---- | :---- | :---- |
-| [single push](#single push)  | /1/push       | POST |
-| [multiple push](#multiple push) | /1/pushs      | POST |
-| [room push](#room push) | /1/push/room   | POST |
-| [broadcasting](#broadcasting) | /1/push/all   | POST |
+| [single push](#single push)  | /1/push | POST |
+| [multiple push](#multiple push) | /1/pushs | POST |
+| [room push](#room push) | /1/push/room | POST |
+| [broadcasting](#broadcasting) | /1/push/all | POST |
 
 <h3>Public response body</h3>
 
@@ -23,16 +23,16 @@ push HTTP interface protocols for pusher
 }
 </pre>
 
-
 ##### single push
- * Example request
+
+* Example request
 
 ```sh
 # uid is the user id pushing to?uid=0
 curl -d "{\"test\":1}" http://127.0.0.1:7172/1/push?uid=0
 ```
 
- * Response
+* Response
 
 <pre>
 {
@@ -41,13 +41,14 @@ curl -d "{\"test\":1}" http://127.0.0.1:7172/1/push?uid=0
 </pre>
 
 ##### Multiple push
- * Example request
+
+* Example request
 
 ```sh
 curl -d "{\"u\":[1,2,3,4,5],\"m\":{\"test\":1}}" http://127.0.0.1:7172/1/pushs
 ```
 
- * Response
+* Response
 
 <pre>
 {
@@ -56,13 +57,14 @@ curl -d "{\"u\":[1,2,3,4,5],\"m\":{\"test\":1}}" http://127.0.0.1:7172/1/pushs
 </pre>
 
 ##### room push
- * Example request
+
+* Example request
 
 ```sh
 curl -d "{\"test\": 1}" http://127.0.0.1:7172/1/push/room?rid=1
 ```
 
- * Response
+* Response
 
 <pre>
 {
@@ -71,13 +73,14 @@ curl -d "{\"test\": 1}" http://127.0.0.1:7172/1/push/room?rid=1
 </pre>
 
 ##### Broadcasting
- * Example request
+
+* Example request
 
 ```sh
 curl -d "{\"test\": 1}" http://127.0.0.1:7172/1/push/all
 ```
 
- * Response
+* Response
 
 <pre>
 {

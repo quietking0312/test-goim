@@ -1,6 +1,7 @@
 #### goim
 
 ##### Version 2.0.0
+
 > 1.router has been changed to redis  
 > 2.Support node with redis online heartbeat maintenance  
 > 3.Support for gRPC and Discovery services  

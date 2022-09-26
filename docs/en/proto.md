@@ -1,7 +1,9 @@
 # comet and clients protocols
+
 comet supports two protocols to communicate with client: WebSocket, TCP
 
-## websocket                                                                   
+## websocket
+
 **Request URL**
 
 ws://DOMAIN/sub
@@ -30,7 +32,8 @@ WebSocket (JSON Frame). Response is same as the request.
 | seq        | true  | int    | Sequence number (Server returned number maps to client sent) |
 | body        | json          | The JSON message pushed |
 
-## tcp                                                                         
+## tcp
+
 **Request URL**
 
 tcp://DOMAIN
@@ -51,6 +54,7 @@ Binary. Response is same as the request.
 | body         | false | binary | $(package lenth) - $(header length) |
 
 ## Operations
+
 | operation     | comment | 
 | :-----     | :---  |
 | 2 | Client send heartbeat|

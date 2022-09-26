@@ -28,3 +28,5 @@ require (
 	google.golang.org/grpc v1.22.3
 	gopkg.in/Shopify/sarama.v1 v1.19.0
 )
+
+replace github.com/Terry-Mao/goim => ./

@@ -1,6 +1,7 @@
 ## goim push API
 
 ### error codes
+
 ```
 // ok
 OK = 0
@@ -13,6 +14,7 @@ ServerErr = -500
 ```
 
 ### push keys
+
 [POST] /goim/push/keys
 
 | Name            | Type     | Remork                 |
@@ -22,6 +24,7 @@ ServerErr = -500
 | [Body]          | []byte   | http request body      |
 
 response:
+
 ```
 {
     "code": 0
@@ -29,6 +32,7 @@ response:
 ```
 
 ### push mids
+
 [POST] /goim/push/mids
 
 | Name            | Type     | Remork                 |
@@ -38,6 +42,7 @@ response:
 | [Body]          | []byte   | http request body      |
 
 response:
+
 ```
 {
     "code": 0
@@ -45,6 +50,7 @@ response:
 ```
 
 ### push room
+
 [POST] /goim/push/room
 
 | Name            | Type     | Remork                 |
@@ -55,6 +61,7 @@ response:
 | [Body]          | []byte   | http request body      |
 
 response:
+
 ```
 {
     "code": 0
@@ -62,6 +69,7 @@ response:
 ```
 
 ### push all
+
 [POST] /goim/push/all
 
 | Name            | Type     | Remork                 |
@@ -71,6 +79,7 @@ response:
 | [Body]          | []byte   | http request body      |
 
 response:
+
 ```
 {
     "code": 0
@@ -78,6 +87,7 @@ response:
 ```
 
 ### online top
+
 [GET] /goim/online/top
 
 | Name    | Type     | Remork                 |
@@ -86,6 +96,7 @@ response:
 | limit   | string   | online limit           |
 
 response:
+
 ```
 {
     "code": 0,
@@ -108,6 +119,7 @@ response:
 ```
 
 ### online room
+
 [GET] /goim/online/room
 
 | Name    | Type     | Remork                 |
@@ -116,6 +128,7 @@ response:
 | rooms   | []string | room ids               |
 
 response:
+
 ```
 {
     "code": 0,
@@ -127,10 +140,13 @@ response:
     }
 }
 ```
+
 ### online total
+
 [GET] /goim/online/total
 
 response:
+
 ```
 {
     "code": 0,
@@ -143,6 +159,7 @@ response:
 ```
 
 ### nodes weighted
+
 [GET] /goim/nodes/weighted
 
 | Name     | Type     | Remork                 |
@@ -150,6 +167,7 @@ response:
 | platform | string   | web/android/ios        |
 
 response:
+
 ```
 {
     "code": 0,
@@ -176,9 +194,11 @@ response:
 ```
 
 ### nodes instances
+
 [GET] /nodes/instances
 
 response:
+
 ```
 {
     "code": 0,

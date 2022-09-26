@@ -1,7 +1,9 @@
-# comet 客户端通讯协议文档                                                     
+# comet 客户端通讯协议文档
+
 comet支持两种协议和客户端通讯 websocket， tcp。
 
-## websocket                                                                   
+## websocket
+
 **请求URL**
 
 ws://DOMAIN/sub
@@ -30,7 +32,8 @@ Websocket（JSON Frame），请求和返回协议一致
 | seq        | true  | int    | 序列号（服务端返回和客户端发送一一对应） |
 | body          | true | string | 授权令牌，用于检验获取用户真实用户Id |
 
-## tcp                                                                         
+## tcp
+
 **请求URL**
 
 tcp://DOMAIN
@@ -51,6 +54,7 @@ tcp://DOMAIN
 | body         | false | binary | $(package lenth) - $(header length) |
 
 ## 指令
+
 | 指令     | 说明  | 
 | :-----     | :---  |
 | 2 | 客户端请求心跳 |

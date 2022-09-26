@@ -3,29 +3,33 @@ goim
 `Terry-Mao/goim` is a IM and push notification server cluster.
 
 ---------------------------------------
-  * [Features](#features)
-  * [Installing](#installing)
-  * [Configurations](#configurations)
-  * [Examples](#examples)
-  * [Documents](#documents)
-  * [More](#more)
+
+* [Features](#features)
+* [Installing](#installing)
+* [Configurations](#configurations)
+* [Examples](#examples)
+* [Documents](#documents)
+* [More](#more)
 
 ---------------------------------------
 
 ## Features
- * Light weight
- * High performance
- * Pure Golang
- * Supports single push, multiple push, room push and broadcasting
- * Supports one key to multiple subscribers (Configurable maximum subscribers count)
- * Supports heartbeats (Application heartbeats, TCP, KeepAlive)
- * Supports authentication (Unauthenticated user can't subscribe)
- * Supports multiple protocols (WebSocket，TCP）
- * Scalable architecture (Unlimited dynamic job and logic modules)
- * Asynchronous push notification based on Kafka
+
+* Light weight
+* High performance
+* Pure Golang
+* Supports single push, multiple push, room push and broadcasting
+* Supports one key to multiple subscribers (Configurable maximum subscribers count)
+* Supports heartbeats (Application heartbeats, TCP, KeepAlive)
+* Supports authentication (Unauthenticated user can't subscribe)
+* Supports multiple protocols (WebSocket，TCP）
+* Scalable architecture (Unlimited dynamic job and logic modules)
+* Asynchronous push notification based on Kafka
 
 ## Installing
+
 ### Dependencies
+
 ```sh
 $ yum -y install java-1.7.0-openjdk
 ```
@@ -39,7 +43,9 @@ Please follow the official quick start [here](http://kafka.apache.org/documentat
 Please follow the official quick start [here](https://golang.org/doc/install).
 
 ### Deploy goim
+
 1.Download goim
+
 ```sh
 $ yum install git
 $ cd $GOPATH/src
@@ -49,6 +55,7 @@ $ go get ./...
 ```
 
 2.Install router、logic、comet、job modules(You might need to change the configuration files based on your servers)
+
 ```sh
 $ cd $GOPATH/src/goim/router
 $ go install
@@ -71,7 +78,9 @@ $ cp job-log.xml $GOPATH/bin/
 Everything is DONE!
 
 ### Run goim
+
 You may need to change the log files location.
+
 ```sh
 $ cd /$GOPATH/bin
 $ nohup $GOPATH/bin/router -c $GOPATH/bin/router.conf 2>&1 > /data/logs/goim/panic-router.log &
@@ -87,9 +96,11 @@ If it fails, please check the logs for debugging.
 Check the push protocols here[push HTTP protocols](./docs/push.md)
 
 ## Configurations
+
 TODO
 
 ## Examples
+
 Websocket: [Websocket Client Demo](https://github.com/Terry-Mao/goim/tree/master/examples/javascript)
 
 Android: [Android SDK](https://github.com/roamdy/goim-sdk)
@@ -97,6 +108,7 @@ Android: [Android SDK](https://github.com/roamdy/goim-sdk)
 iOS: [iOS](https://github.com/roamdy/goim-oc-sdk)
 
 ## Documents
+
 [push HTTP protocols](./docs/en/push.md)
 
 [Comet client protocols](./docs/en/proto.md)
