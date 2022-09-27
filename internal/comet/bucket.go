@@ -74,7 +74,7 @@ func (b *Bucket) ChangeRoom(nrid string, ch *Channel) (err error) {
 	)
 	// change to no room
 	if nrid == "" {
-		if oroom != nil && oroom.Del(ch) {
+		if oroom != nil && oroom.Del(ch.Key) {
 			b.DelRoom(oroom)
 		}
 		ch.Room = nil
@@ -86,11 +86,11 @@ func (b *Bucket) ChangeRoom(nrid string, ch *Channel) (err error) {
 		b.rooms[nrid] = nroom
 	}
 	b.cLock.Unlock()
-	if oroom != nil && oroom.Del(ch) {
+	if oroom != nil && oroom.Del(ch.Key) {
 		b.DelRoom(oroom)
 	}
 
-	if err = nroom.Put(ch); err != nil {
+	if err = nroom.Put(ch.Key, ch); err != nil {
 		return
 	}
 	ch.Room = nroom
@@ -119,7 +119,7 @@ func (b *Bucket) Put(rid string, ch *Channel) (err error) {
 	b.ipCnts[ch.IP]++
 	b.cLock.Unlock()
 	if room != nil {
-		err = room.Put(ch)
+		err = room.Put(ch.Key, ch)
 	}
 	return
 }
@@ -140,7 +140,7 @@ func (b *Bucket) Del(dch *Channel) {
 		}
 	}
 	b.cLock.Unlock()
-	if room != nil && room.Del(dch) {
+	if room != nil && room.Del(dch.Key) {
 		// if empty room, must delete from bucket
 		b.DelRoom(room)
 	}

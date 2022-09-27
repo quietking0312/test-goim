@@ -11,12 +11,12 @@ import (
 // Channel used by message pusher send msg to write goroutine.
 type Channel struct {
 	Room     *Room
-	CliProto Ring
+	CliProto Ring // proto 缓存池
 	signal   chan *protocol.Proto
 	Writer   bufio.Writer
 	Reader   bufio.Reader
-	Next     *Channel
-	Prev     *Channel
+	//Next     *Channel
+	//Prev     *Channel
 
 	Mid      int64
 	Key      string

@@ -129,7 +129,7 @@ func (s *Server) ServeTCP(conn *net.TCPConn, rp, wp *bytes.Pool, tr *xtime.Timer
 		if ch.Mid, ch.Key, rid, accepts, hb, err = s.authTCP(ctx, rr, wr, p); err == nil {
 			ch.Watch(accepts...)
 			b = s.Bucket(ch.Key)
-			err = b.Put(rid, ch)
+			err = b.Put(rid, ch) //往房间里发送数据
 			if conf.Conf.Debug {
 				log.Infof("tcp connnected key:%s mid:%d proto:%+v", ch.Key, ch.Mid, p)
 			}
@@ -152,7 +152,7 @@ func (s *Server) ServeTCP(conn *net.TCPConn, rp, wp *bytes.Pool, tr *xtime.Timer
 	}
 	step = 3
 	// hanshake ok start dispatch goroutine
-	go s.dispatchTCP(conn, wr, wp, wb, ch)
+	go s.dispatchTCP(conn, wr, wp, wb, ch) // 写入 conn
 	serverHeartbeat := s.RandServerHearbeat()
 	for {
 		if p, err = ch.CliProto.Set(); err != nil {
@@ -260,6 +260,7 @@ func (s *Server) dispatchTCP(conn *net.TCPConn, wr *bufio.Writer, wp *bytes.Pool
 				if white {
 					whitelist.Printf("key: %s start write client proto%v\n", ch.Key, p)
 				}
+				// 处理心跳
 				if p.Op == protocol.OpHeartbeatReply {
 					if ch.Room != nil {
 						online = ch.Room.OnlineNum()
@@ -325,6 +326,7 @@ failed:
 // auth for goim handshake with client, use rsa & aes.
 func (s *Server) authTCP(ctx context.Context, rr *bufio.Reader, wr *bufio.Writer, p *protocol.Proto) (mid int64, key, rid string, accepts []int32, hb time.Duration, err error) {
 	for {
+		// 从conn 读取数据
 		if err = p.ReadTCP(rr); err != nil {
 			return
 		}
@@ -334,6 +336,7 @@ func (s *Server) authTCP(ctx context.Context, rr *bufio.Reader, wr *bufio.Writer
 			log.Errorf("tcp request operation(%d) not auth", p.Op)
 		}
 	}
+	// mid, key, roomId
 	if mid, key, rid, accepts, hb, err = s.Connect(ctx, p, ""); err != nil {
 		log.Errorf("authTCP.Connect(key:%v).err(%v)", key, err)
 		return

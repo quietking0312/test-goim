@@ -1,20 +1,19 @@
 package comet
 
 import (
+	"github.com/Terry-Mao/goim/internal/comet/errors"
 	"sync"
 
 	"github.com/Terry-Mao/goim/api/protocol"
-	"github.com/Terry-Mao/goim/internal/comet/errors"
 )
 
 // Room is a room and store channel room info.
 type Room struct {
-	ID        string
-	rLock     sync.RWMutex
-	next      *Channel
-	drop      bool
-	Online    int32 // dirty read is ok
-	AllOnline int32
+	ID          string
+	channelPool sync.Map
+	drop        bool
+	Online      int32 // dirty read is ok
+	AllOnline   int32
 }
 
 // NewRoom new a room struct, store channel room info.
@@ -22,66 +21,55 @@ func NewRoom(id string) (r *Room) {
 	r = new(Room)
 	r.ID = id
 	r.drop = false
-	r.next = nil
 	r.Online = 0
 	return
 }
 
 // Put put channel into the room.
-func (r *Room) Put(ch *Channel) (err error) {
-	r.rLock.Lock()
+// chKey 是 channel 的唯一标识。 确定它的数据类型是字符串
+func (r *Room) Put(chKey string, ch *Channel) (err error) {
 	if !r.drop {
-		if r.next != nil {
-			r.next.Prev = ch
-		}
-		ch.Next = r.next
-		ch.Prev = nil
-		r.next = ch // insert to header
+		r.channelPool.Store(chKey, ch)
 		r.Online++
 	} else {
 		err = errors.ErrRoomDroped
 	}
-	r.rLock.Unlock()
 	return
 }
 
 // Del delete channel from the room.
-func (r *Room) Del(ch *Channel) bool {
-	r.rLock.Lock()
-	if ch.Next != nil {
-		// if not footer
-		ch.Next.Prev = ch.Prev
-	}
-	if ch.Prev != nil {
-		// if not header
-		ch.Prev.Next = ch.Next
-	} else {
-		r.next = ch.Next
-	}
-	ch.Next = nil
-	ch.Prev = nil
+func (r *Room) Del(chKey string) bool {
+	r.channelPool.Delete(chKey)
 	r.Online--
 	r.drop = r.Online == 0
-	r.rLock.Unlock()
 	return r.drop
 }
 
 // Push push msg to the room, if chan full discard it.
 func (r *Room) Push(p *protocol.Proto) {
-	r.rLock.RLock()
-	for ch := r.next; ch != nil; ch = ch.Next {
+	r.channelPool.Range(func(key, value interface{}) bool {
+		ch, ok := value.(*Channel)
+		if !ok {
+			r.Del(key.(string))
+			return true
+		}
 		_ = ch.Push(p)
-	}
-	r.rLock.RUnlock()
+		return true
+	})
 }
 
 // Close close the room.
 func (r *Room) Close() {
-	r.rLock.RLock()
-	for ch := r.next; ch != nil; ch = ch.Next {
+	r.channelPool.Range(func(key, value interface{}) bool {
+		ch, ok := value.(*Channel)
+		if !ok {
+			r.Del(key.(string))
+			return true
+		}
 		ch.Close()
-	}
-	r.rLock.RUnlock()
+		r.Del(key.(string))
+		return true
+	})
 }
 
 // OnlineNum the room all online.
